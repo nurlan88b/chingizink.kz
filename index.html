@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Полиграфия Калькуляторы</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eceff1; display: flex; justify-content: center; padding: 20px; }
+        .calc-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { text-align: center; color: #2c3e50; margin-bottom: 25px; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #546e7a; }
+        input, select { width: 100%; padding: 12px; border: 2px solid #cfd8dc; border-radius: 10px; box-sizing: border-box; font-size: 16px; transition: 0.3s; }
+        input:focus { border-color: #007bff; outline: none; }
+        .result { background: #f1f8e9; padding: 20px; border-radius: 10px; margin-top: 25px; text-align: center; border: 1px dashed #8bc34a; }
+        .price { font-size: 28px; font-weight: bold; color: #2e7d32; }
+        .wa-button { display: block; width: 100%; background: #25D366; color: white; text-decoration: none; text-align: center; padding: 15px; border-radius: 10px; margin-top: 20px; font-weight: bold; font-size: 16px; transition: 0.3s; }
+        .wa-button:hover { background: #128C7E; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+<div class="calc-card">
+    <h2>Тапсырыс есептеу</h2>
+    
+    <div class="input-group">
+        <label>Өнім түрі:</label>
+        <select id="type" onchange="calculate()">
+            <option value="2500" data-name="Баннер">Баннер (2500 тг/м²)</option>
+            <option value="8000" data-name="Стенд">Стенд (8000 тг/м²)</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <label>Ені (метр):</label>
+        <input type="number" id="width" value="1" step="0.1" oninput="calculate()">
+    </div>
+
+    <div class="input-group">
+        <label>Биіктігі (метр):</label>
+        <input type="number" id="height" value="1" step="0.1" oninput="calculate()">
+    </div>
+
+    <div class="result">
+        <div>Жалпы құны:</div>
+        <div class="price"><span id="total">2500</span> ₸</div>
+    </div>
+
+    <a href="#" id="waLink" class="wa-button" target="_blank">WhatsApp-пен тапсырыс беру</a>
+</div>
+
+<script>
+function calculate() {
+    const select = document.getElementById('type');
+    const pricePerMeter = select.value;
+    const prodName = select.options[select.selectedIndex].getAttribute('data-name');
+    
+    const width = document.getElementById('width').value;
+    const height = document.getElementById('height').value;
+    
+    const area = width * height;
+    const total = Math.round(area * pricePerMeter);
+    
+    document.getElementById('total').innerText = total.toLocaleString();
+
+    // WhatsApp сілтемесін дайындау
+    const phone = "77029669906"; // ОСЫ ЖЕРГЕ ӨЗ НӨМІРІҢІЗДІ ЖАЗЫҢЫЗ
+    const message = `Сәлеметсіз бе! Тапсырыс бергім келеді: %0A🔹 Өнім: ${prodName} %0A📏 Өлшемі: ${width}м x ${height}м %0A💰 Бағасы: ${total} теңге`;
+    
+    document.getElementById('waLink').href = `https://wa.me/${phone}?text=${message}`;
+}
+
+// Бірінші рет есептеу үшін
+calculate();
+</script>
+
+</body>
+</html>
